@@ -169,7 +169,7 @@ void gameNormal(bool PlayingOrder, unsigned int _nbAllumette) {
 
 // Programme d'une partie en difficulté Experte
 
-void gameExpert(bool PlayingOrder, int _nbAllumette) {
+void gameExpert(bool PlayingOrder, unsigned int _nbAllumette) {
     unsigned int tempInputJoueur;
     unsigned int tempInputBot;
     bool lastPlayed(false); // Si = true signifie que le joueur à perdu avant le robot.
@@ -190,7 +190,7 @@ void gameExpert(bool PlayingOrder, int _nbAllumette) {
                 if (tempInputJoueur > 4) {
                     send("nombre invalide !");
                 }
-            }while(tempInputJoueur > 4);  
+            }while(tempInputJoueur > 4);
             _nbAllumette -= tempInputJoueur;
 
             sendProgress(_nbAllumette);
@@ -198,9 +198,9 @@ void gameExpert(bool PlayingOrder, int _nbAllumette) {
             // Tour du robot
 
             for(int cpt(1); cpt < 4; cpt++) {
-              if((_nbAllumette - cpt) % 4 == 1) {
-                tempInputBot = cpt;
-              }
+                if((_nbAllumette - cpt) % 4 == 1) {
+                    tempInputBot = cpt;
+                }
             }
 
             if(_nbAllumette == 0) {
