@@ -1,1 +1,2 @@
-# jeu-des-allumettes
+# Le jeu des allumettes 
+## Règles
