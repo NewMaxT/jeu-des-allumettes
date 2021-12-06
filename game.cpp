@@ -55,8 +55,25 @@ void end(bool Winner) {
 
 void sendProgress(unsigned int _nbAllumette)
 {
-    sleep_for(seconds(2));
     std::cout << "Il y a " << _nbAllumette << " allumettes." << std::endl;
+
+    int dividedByFive = _nbAllumette / 5;
+    int moduledByFive = _nbAllumette % 5;
+
+    for (int cpt(0); cpt < moduledByFive; cpt++) {
+        std::cout << "! ";
+    }
+
+    if(moduledByFive != 0) {
+      send("");
+    }
+    
+    for (int cpt(0); cpt < dividedByFive; cpt++) {
+        std::cout << "! ! ! ! ! " << std::endl;
+    }
+
+    
+    
 }
 
 // ------------------
@@ -72,23 +89,24 @@ void gameNormal(bool PlayingOrder, unsigned int _nbAllumette) {
     send("Le jeu commence !");
     sendProgress(_nbAllumette);
     send("");
-    send("");
 
     if(!PlayingOrder) {
         do {
-
             // Tour de l'utilisateur
 
-            send("Choisi une nombre entre 1 et 3 :");
+            send("");
+            send("Choisit une nombre entre 1 et 3 :");
             do{
                 std::cin >> tempInputJoueur;
                 if (tempInputJoueur > 4) {
-                    send("nombre invalide !");
+                    send("Nombre invalide !");
+                } else if (tempInputJoueur > _nbAllumette) {
+                    send("Nombre invalide !");
                 }
-            }while(tempInputJoueur > 4);
+              } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
             _nbAllumette -= tempInputJoueur;
-
             sendProgress(_nbAllumette);
+            send("");
 
             // Tour du robot
 
@@ -96,7 +114,6 @@ void gameNormal(bool PlayingOrder, unsigned int _nbAllumette) {
                 srand (time(NULL));
                 tempInputBot = rand() % 3 + 1;
             } while(tempInputBot == 0);
-
             if(_nbAllumette == 0) {
                 lastPlayed = true;
                 break;
@@ -104,20 +121,10 @@ void gameNormal(bool PlayingOrder, unsigned int _nbAllumette) {
                 send("L'ordinateur joue : ");
                 _nbAllumette -= tempInputBot;
                 sendProgress(_nbAllumette);
+                send("");
             }
-
         } while(_nbAllumette > 0);
-
-        // Fin de la partie
-
-        if(lastPlayed) {
-            end(true);
-        } else {
-            end(false);
-        }
-
     } else {
-
         do {
 
             // Tour du robot
@@ -126,40 +133,38 @@ void gameNormal(bool PlayingOrder, unsigned int _nbAllumette) {
                 srand (time(NULL));
                 tempInputBot = rand() % 3 + 1;
             } while(tempInputBot == 0);
-
             send("L'ordinateur joue : ");
             _nbAllumette -= tempInputBot;
             sendProgress(_nbAllumette);
+            send("");
 
             // Tour de l'utilisateur
 
-
             if(_nbAllumette == 0) {
-
                 lastPlayed = false;
                 break;
-
             } else {
-
+                send("");
                 send("Choisi une nombre entre 1 et 3 :");
                 do{
                     std::cin >> tempInputJoueur;
                     if (tempInputJoueur > 4) {
-                        send("nombre invalide !");
+                        send("Nombre invalide !");
+                    } else if (tempInputJoueur > _nbAllumette){
+                        send("Nombre invalide !");
                     }
-                }while(tempInputJoueur > 4);
+                  } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
                 _nbAllumette -= tempInputJoueur;
                 sendProgress(_nbAllumette);
-
+                send("");
             }
-
         } while(_nbAllumette > 0);
 
         // Fin de la partie
         if(lastPlayed) {
-            end(true);
-        } else {
             end(false);
+        } else {
+            end(true);
         }
 
     }
@@ -183,17 +188,19 @@ void gameExpert(bool PlayingOrder, unsigned int _nbAllumette) {
         do {
 
             // Tour de l'utilisateur
-
+            send("");
             send("Choisi une nombre entre 1 et 3 :");
             do{
                 std::cin >> tempInputJoueur;
                 if (tempInputJoueur > 4) {
-                    send("nombre invalide !");
+                    send("Nombre invalide !");
+                } else if (tempInputJoueur > _nbAllumette){
+                    send("Nombre invalide !");
                 }
-            }while(tempInputJoueur > 4);
+              } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
             _nbAllumette -= tempInputJoueur;
-
             sendProgress(_nbAllumette);
+            send("");
 
             // Tour du robot
 
@@ -202,7 +209,6 @@ void gameExpert(bool PlayingOrder, unsigned int _nbAllumette) {
                     tempInputBot = cpt;
                 }
             }
-
             if(_nbAllumette == 0) {
                 lastPlayed = true;
                 break;
@@ -210,64 +216,55 @@ void gameExpert(bool PlayingOrder, unsigned int _nbAllumette) {
                 send("L'ordinateur joue : ");
                 _nbAllumette -= tempInputBot;
                 sendProgress(_nbAllumette);
+                send("");
             }
-
         } while(_nbAllumette > 0);
 
         // Fin de la partie
-
-        if(lastPlayed) {
-            end(true);
-        } else {
-            end(false);
-        }
 
     } else {
 
         do {
-
             // Tour du robot
 
-            do {
-                srand (time(NULL));
-                tempInputBot = rand() % 3 + 1;
-            } while(tempInputBot == 0);
-
+            for(int cpt(1); cpt < 4; cpt++) {
+                if((_nbAllumette - cpt) % 4 == 1) {
+                    tempInputBot = cpt;
+                }
+            }
             send("L'ordinateur joue : ");
             _nbAllumette -= tempInputBot;
             sendProgress(_nbAllumette);
+            send("");
 
             // Tour de l'utilisateur
 
-
             if(_nbAllumette == 0) {
-
                 lastPlayed = false;
                 break;
-
             } else {
-
+                send("");
                 send("Choisi une nombre entre 1 et 3 :");
                 do{
                     std::cin >> tempInputJoueur;
                     if (tempInputJoueur > 4) {
-                        send("nombre invalide !");
+                        send("Nombre invalide !");
+                    } else if (tempInputJoueur > _nbAllumette){
+                      send("Nombre invalide !");
                     }
-                }while(tempInputJoueur > 4);
+                } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
                 _nbAllumette -= tempInputJoueur;
                 sendProgress(_nbAllumette);
-
+                send("");
             }
-
         } while(_nbAllumette > 0);
+    }
 
-        // Fin de la partie
-        if(lastPlayed) {
-            end(true);
-        } else {
-            end(false);
-        }
-
+    // Fin de la partie
+    if(lastPlayed) {
+      end(false);
+    } else {
+      end(true);
     }
 }
 
@@ -277,7 +274,7 @@ void gameExpert(bool PlayingOrder, unsigned int _nbAllumette) {
 
 void gameInit(const std::string& PseudoPlayerOne, bool Difficulty, bool PlayingOrder) {
 
-    std::string menuLabelAllu("Choisissez un nombre d'allumettes (max 30)");
+    std::string menuLabelAllu("Choisissez un nombre d'allumettes (minimum 5, maximum 30) :");
     unsigned int nbAllumette;
 
     do {
@@ -302,23 +299,17 @@ void gameInit(const std::string& PseudoPlayerOne, bool Difficulty, bool PlayingO
 int main() {
 
     std::string menuLabelA("Entrez un pseudonyme :");
-    //string menuLabelB("Voulez vous jouez contre l'ordinateur ou un autre joueur? (J/O)");
-    //string menuLabelC("Entrer un deuxième nom de joueur");
     std::string menuLabelD("Voulez vous jouez en mode expert (E) ou normal (N)");
     std::string menulabelF("Voulez-vous jouer en premier ? (O/N)");
-    //std::string menulabelG("Quel joueur commence ? (J1/J2)");
     std::string menuLabelH("Souhaitez-vous abandonnez ? (O/N)");
     std::string menuSuccess("OK!");
-    std::string menuFailed("Houston, on a un probleme ! Stopping...");
     // ------------------------------
-
 
     // Sauvegarde du pseudonyme saisie
 
     send(menuLabelA);
     std::cin >> pseudonymePlayerOne;
     send(menuSuccess);
-
 
     // Sauvegarde de la difficulté saisie
 
@@ -328,6 +319,7 @@ int main() {
     } else {
         difficulty = true;
     }
+    send(menuSuccess);
 
     // ----------------------------------
 
@@ -339,6 +331,7 @@ int main() {
     } else {
         isPlayingFirst = false;
     }
+    send(menuSuccess);
 
     // ----------------------------------
 
