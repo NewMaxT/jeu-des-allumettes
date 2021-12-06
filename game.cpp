@@ -2,11 +2,6 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
-#include <thread>
-#include <chrono>
-
-using namespace std::this_thread;
-using namespace std::chrono;
 
 // Variables globales
 
@@ -65,15 +60,15 @@ void sendProgress(unsigned int _nbAllumette)
     }
 
     if(moduledByFive != 0) {
-      send("");
+        send("");
     }
-    
+
     for (int cpt(0); cpt < dividedByFive; cpt++) {
         std::cout << "! ! ! ! ! " << std::endl;
     }
 
-    
-    
+
+
 }
 
 // ------------------
@@ -103,7 +98,7 @@ void gameNormal(bool PlayingOrder, unsigned int _nbAllumette) {
                 } else if (tempInputJoueur > _nbAllumette) {
                     send("Nombre invalide !");
                 }
-              } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
+            } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
             _nbAllumette -= tempInputJoueur;
             sendProgress(_nbAllumette);
             send("");
@@ -153,7 +148,7 @@ void gameNormal(bool PlayingOrder, unsigned int _nbAllumette) {
                     } else if (tempInputJoueur > _nbAllumette){
                         send("Nombre invalide !");
                     }
-                  } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
+                } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
                 _nbAllumette -= tempInputJoueur;
                 sendProgress(_nbAllumette);
                 send("");
@@ -197,7 +192,7 @@ void gameExpert(bool PlayingOrder, unsigned int _nbAllumette) {
                 } else if (tempInputJoueur > _nbAllumette){
                     send("Nombre invalide !");
                 }
-              } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
+            } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
             _nbAllumette -= tempInputJoueur;
             sendProgress(_nbAllumette);
             send("");
@@ -250,7 +245,7 @@ void gameExpert(bool PlayingOrder, unsigned int _nbAllumette) {
                     if (tempInputJoueur > 4) {
                         send("Nombre invalide !");
                     } else if (tempInputJoueur > _nbAllumette){
-                      send("Nombre invalide !");
+                        send("Nombre invalide !");
                     }
                 } while(tempInputJoueur > 4 || tempInputJoueur > _nbAllumette);
                 _nbAllumette -= tempInputJoueur;
@@ -262,9 +257,9 @@ void gameExpert(bool PlayingOrder, unsigned int _nbAllumette) {
 
     // Fin de la partie
     if(lastPlayed) {
-      end(false);
+        end(false);
     } else {
-      end(true);
+        end(true);
     }
 }
 
@@ -297,6 +292,9 @@ void gameInit(const std::string& PseudoPlayerOne, bool Difficulty, bool PlayingO
 // Initialise le menu principal
 
 int main() {
+
+    send("Version: 1.4");
+    send("");
 
     std::string menuLabelA("Entrez un pseudonyme :");
     std::string menuLabelD("Voulez vous jouez en mode expert (E) ou normal (N)");
